@@ -7,9 +7,11 @@ export interface IMyNode {
 
 export class MyActivityList {
   public list: { [s: string]: MyActivity; };
+  public criticalPath: string[];
 
   constructor() {
     this.list = {};
+    this.criticalPath = [];
   }
 
   public addActivity(activity: MyActivity) {
@@ -122,7 +124,6 @@ export class MyActivityList {
       } else {
         this.list[id].config.lst = Math.min(this.list[id].config.lst!, currentActivity.config.lst! - this.list[id].config.duration);
       }
-      // console.log("id", id, "succesor", currentActivity.config.id, "lst", this.list[id].config.lst, "current est", currentActivity.config.est!, "node duration", this.list[id].config.duration);
       this.setLatest(id);
     }
   }
@@ -143,7 +144,6 @@ export class MyActivityList {
       this.list[id].config.predecessors = ["START"];
     });
     const earliestFinishTime: number = this.setEarliest(rounds);
-    // console.log(earliestFinishTime);
     this.list.FINISH = new MyActivity({
       id: "FINISH",
       duration: 0,
@@ -152,25 +152,26 @@ export class MyActivityList {
       predecessors: this.getFinalNodes(),
       successors: [],
     });
-    rounds[rounds.length - 1].forEach((id: string) => {
-      // this.list[id].config.successors = ["FINISH"];
+    this.list.FINISH.config.predecessors.forEach((id: string) => {
+      this.list[id].config.successors.push("FINISH");
     });
     this.setLatest("FINISH");
-    this.print();
   }
 
   public getCriticalPath(id: string, criticalPath: any[]) {
     if (id === "FINISH") {
       criticalPath.pop();
-      console.log("HERE", criticalPath);
-      return [...criticalPath];
+      this.criticalPath = criticalPath.map((act: MyActivity) => {
+        return act.config.id;
+      });
     } else {
       const currNode: MyActivity = this.list[id];
       currNode.config.successors.forEach((id: string) => { /* tslint:disable-line */
         const node: MyActivity = this.list[id];
         if (Math.abs(node.config.est! - node.config.lst!) === 0) {
           criticalPath.push(node);
-          this.getCriticalPath(id, [...criticalPath]);
+          // console.log(id, criticalPath);
+          this.getCriticalPath(id, criticalPath.slice());
           criticalPath.pop();
         }
       });
@@ -179,8 +180,9 @@ export class MyActivityList {
 
   public cpm() {
     this.setCriticalPath();
-    const path = this.getCriticalPath("START", []);
-    console.log("HELLOU", path);
+    this.getCriticalPath("START", []);
+    console.log("Critical path", this.criticalPath);
+    // this.print();
   }
 
   public print() {
