@@ -143,7 +143,7 @@ export class MyActivityList {
       this.list[id].config.predecessors = ["START"];
     });
     const earliestFinishTime: number = this.setEarliest(rounds);
-    console.log(earliestFinishTime);
+    // console.log(earliestFinishTime);
     this.list.FINISH = new MyActivity({
       id: "FINISH",
       duration: 0,
@@ -153,7 +153,7 @@ export class MyActivityList {
       successors: [],
     });
     rounds[rounds.length - 1].forEach((id: string) => {
-      this.list[id].config.successors = ["FINISH"];
+      // this.list[id].config.successors = ["FINISH"];
     });
     this.setLatest("FINISH");
     this.print();
@@ -166,7 +166,7 @@ export class MyActivityList {
       return [...criticalPath];
     } else {
       const currNode: MyActivity = this.list[id];
-      currNode.config.successors.forEach(id => {
+      currNode.config.successors.forEach((id: string) => { /* tslint:disable-line */
         const node: MyActivity = this.list[id];
         if (Math.abs(node.config.est! - node.config.lst!) === 0) {
           criticalPath.push(node);
@@ -175,6 +175,12 @@ export class MyActivityList {
         }
       });
     }
+  }
+
+  public cpm() {
+    this.setCriticalPath();
+    const path = this.getCriticalPath("START", []);
+    console.log("HELLOU", path);
   }
 
   public print() {
