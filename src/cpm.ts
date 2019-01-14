@@ -76,6 +76,8 @@ activityList.addActivity(new MyActivity({
 // const rounds = activityList.rounds();
 // console.log(rounds);
 activityList.setCriticalPath();
+const path = activityList.getCriticalPath("START", []);
+console.log("HELLOU", [...path!]);
 // console.log(graphs.original);
 // console.log("====================");
 // console.log(graphs.shadowed);

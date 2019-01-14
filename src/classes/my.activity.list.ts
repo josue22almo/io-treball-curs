@@ -10,7 +10,6 @@ export class MyActivityList {
 
   constructor() {
     this.list = {};
-
   }
 
   public addActivity(activity: MyActivity) {
@@ -160,8 +159,22 @@ export class MyActivityList {
     this.print();
   }
 
-  public getCriticalPath() {
-    for (const key of Object.MSMediaKeySession()) { }
+  public getCriticalPath(id: string, criticalPath: any[]) {
+    if (id === "FINISH") {
+      criticalPath.pop();
+      console.log("HERE", criticalPath);
+      return [...criticalPath];
+    } else {
+      const currNode: MyActivity = this.list[id];
+      currNode.config.successors.forEach(id => {
+        const node: MyActivity = this.list[id];
+        if (Math.abs(node.config.est! - node.config.lst!) === 0) {
+          criticalPath.push(node);
+          this.getCriticalPath(id, [...criticalPath]);
+          criticalPath.pop();
+        }
+      });
+    }
   }
 
   public print() {
