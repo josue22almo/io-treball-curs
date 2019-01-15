@@ -1,0 +1,105 @@
+{
+  "activities": [
+    {
+        "id": "OMEGA-74",
+        "description": "Update cryptos product specs (tracking)",
+        "duration": 4,
+        "successors": [],
+        "predecessors": [],
+        "maxWorkers": 1,
+        "cost": 5
+    }, {
+        "id": "OMEGA-68",
+        "description": "Rethink UX risk management",
+        "duration": 4,
+        "successors": [],
+        "predecessors": ["OMEGA-74"],
+        "maxWorkers": 2,
+        "cost": 10
+    }, {
+        "id": "OMEGA-61",
+        "description": "Cryptos FAQs",
+        "duration": 10,
+        "predecessors": [],
+        "successors": [],
+        "maxWorkers": 1,
+        "cost": 15
+    }, {
+        "id": "OMEGA-52",
+        "description": "Redefine invest balance for cryptos",
+        "duration": 4,
+        "predecessors": ["OMEGA-74"],
+        "successors": [],
+        "maxWorkers": 2,
+        "cost": 10
+    },{
+        "id": "OMEGA-25",
+        "description": "Cryptos: Design QA",
+        "duration": 10,
+        "predecessors": ["OMEGA-74", "OMEGA-68", "OMEGA-52"],
+        "successors": [],
+        "maxWorkers": 3,
+        "cost": 20
+    },{
+        "id": "OMEGA-24",
+        "description": "Cryptos: general testing",
+        "duration": 16,
+        "predecessors": ["OMEGA-14"],
+        "successors": [],
+        "maxWorkers": 10,
+        "cost": 15
+    }, {
+        "id": "OMEGA-14",
+        "description": "Crypto testing (tech)",
+        "duration": 8,
+        "predecessors": ["OMEGA-13"],
+        "successors": [],
+        "maxWorkers": 4,
+        "cost": 20
+    }, {
+        "id": "OMEGA-13",
+        "description": "Crypto implementation",
+        "duration": 40,
+        "predecessors": ["OMEGA-52", "OMEGA-74"],
+        "successors": [],
+        "maxWorkers": 3,
+        "cost": 50
+    },
+    {
+        "id": "OMEGA-101",
+        "description": "RoundUp Saving Method activation button",
+        "duration": 4,
+        "predecessors": ["OMEGA-100", "OMEGA-102"],
+        "successors": [],
+        "maxWorkers": 1,
+        "cost": 5
+    },
+    {
+        "id": "OMEGA-100",
+        "description": "Design flow SM on SG",
+        "duration": 8,
+        "predecessors": [],
+        "successors": [],
+        "maxWorkers": 1,
+        "cost": 10
+    },
+    {
+        "id": "OMEGA-102",
+        "description": "SM on SG flow implementation",
+        "duration": 16,
+        "predecessors": ["OMEGA-100"],
+        "successors": [],
+        "maxWorkers": 2,
+        "cost": 25
+    },
+    {
+        "id": "OMEGA-103",
+        "description": "View other methods button",
+        "duration": 4,
+        "predecessors": ["OMEGA-100", "OMEGA-102"],
+        "successors": [],
+        "maxWorkers": 1,
+        "cost": 10
+    }
+  ]
+}

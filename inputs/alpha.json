@@ -1,0 +1,114 @@
+{
+    "activities": [
+      {
+          "id": "ALPHA-11",
+          "description": "Jackpot Metrics Specs",
+          "duration": 8,
+          "successors": [],
+          "predecessors": ["ALPHA-21"],
+          "maxWorkers": 2,
+          "cost": 10
+      }, {
+          "id": "ALPHA-21",
+          "description": "App design change",
+          "duration": 4,
+          "successors": [],
+          "predecessors": [],
+          "maxWorkers": 1,
+          "cost": 5
+      }, {
+          "id": "ALPHA-12",
+          "description": "Modify SG creation",
+          "duration": 10,
+          "predecessors": ["ALPHA-11"],
+          "successors": [],
+          "maxWorkers": 1,
+          "cost": 15
+      }, {
+          "id": "ALPHA-18",
+          "description": "Check transactions totalAmount location",
+          "duration": 4,
+          "predecessors": ["ALPHA-18", "ALPHA-11"],
+          "successors": [],
+          "maxWorkers": 1,
+          "cost": 5
+      },{
+          "id": "ALPHA-42",
+          "description": "Handle withdraw of recurrent money",
+          "duration": 15,
+          "predecessors": [],
+          "successors": [],
+          "maxWorkers": 2,
+          "cost": 20
+      },{
+          "id": "ALPHA-43",
+          "description": "Implement setting flags with rabbit",
+          "duration": 8,
+          "predecessors": ["ALPHA-11"],
+          "successors": [],
+          "maxWorkers": 1,
+          "cost": 10
+      }, {
+          "id": "ALPHA-76",
+          "description": "Modify cloakroom to fit the new structure",
+          "duration": 24,
+          "predecessors": ["ALPHA-20", "ALPHA-42", "ALPHA-11"],
+          "successors": [],
+          "maxWorkers": 3,
+          "cost": 40
+      }, {
+          "id": "ALPHA-77",
+          "description": "Adapt Antonio to new structure",
+          "duration": 12,
+          "predecessors": [],
+          "successors": [],
+          "maxWorkers": 2,
+          "cost": 20
+      },
+      {
+          "id": "ALPHA-20",
+          "description": "Change FMG & Plutus",
+          "duration": 8,
+          "predecessors": [],
+          "successors": [],
+          "maxWorkers": 2,
+          "cost": 15
+      },
+      {
+          "id": "ALPHA-39",
+          "description": "Modify Balthazar for handling recurrent money",
+          "duration": 12,
+          "predecessors": ["ALPHA-77","ALPHA-20"],
+          "successors": [],
+          "maxWorkers": 3,
+          "cost": 20
+      },
+      {
+          "id": "ALPHA-74",
+          "description": "Create Piggybank endpoint",
+          "duration": 4,
+          "predecessors": [],
+          "successors": [],
+          "maxWorkers": 1,
+          "cost": 5
+      },
+      {
+          "id": "ALPHA-16",
+          "description": "Testing Antonio",
+          "duration": 8,
+          "predecessors": ["ALPHA-77"],
+          "successors": [],
+          "maxWorkers": 2,
+          "cost": 25
+      },
+      {
+        "id": "ALPHA-78",
+        "description": "Migration script from Cloakroom to Antonio",
+        "duration": 6,
+        "predecessors": ["ALPHA-16"],
+        "successors": [],
+        "maxWorkers": 1,
+        "cost": 10
+    }
+    ]
+  }
