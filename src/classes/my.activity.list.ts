@@ -124,18 +124,19 @@ export class MyActivityList {
       } else {
         this.list[id].config.lst = Math.min(this.list[id].config.lst!, currentActivity.config.lst! - this.list[id].config.duration);
       }
+      this.list[id].config.let = this.list[id].config.lst! + this.list[id].config.duration;
       this.setLatest(id);
     }
   }
 
-  public setCriticalPath() {
+  public initActivityNetwork() {
     const rounds: any[] = this.rounds();
     this.list.START = new MyActivity({
       id: "START",
       duration: 0,
       est: 0,
       lst: 0,
-      // let: 0,
+      let: 0,
       eet: 0,
       predecessors: [],
       successors: rounds[0],
@@ -149,6 +150,7 @@ export class MyActivityList {
       duration: 0,
       est: earliestFinishTime,
       lst: earliestFinishTime,
+      let: 0,
       predecessors: this.getFinalNodes(),
       successors: [],
     });
@@ -158,7 +160,7 @@ export class MyActivityList {
     this.setLatest("FINISH");
   }
 
-  public getCriticalPath(id: string, criticalPath: any[]) {
+  public computeCriticalPath(id: string, criticalPath: any[]) {
     if (id === "FINISH") {
       criticalPath.pop();
       this.criticalPath = criticalPath.map((act: MyActivity) => {
@@ -170,8 +172,7 @@ export class MyActivityList {
         const node: MyActivity = this.list[id];
         if (Math.abs(node.config.est! - node.config.lst!) === 0) {
           criticalPath.push(node);
-          // console.log(id, criticalPath);
-          this.getCriticalPath(id, criticalPath.slice());
+          this.computeCriticalPath(id, criticalPath.slice());
           criticalPath.pop();
         }
       });
@@ -179,10 +180,10 @@ export class MyActivityList {
   }
 
   public cpm() {
-    this.setCriticalPath();
-    this.getCriticalPath("START", []);
+    this.initActivityNetwork();
+    this.computeCriticalPath("START", []);
     console.log("Critical path", this.criticalPath);
-    // this.print();
+    console.log("Expected end time:", this.list.FINISH.config.lst);
   }
 
   public print() {

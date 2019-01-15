@@ -4,7 +4,7 @@ export interface IActivityConfig {
   est?: number; // Earliest start time
   lst?: number; // latest start time
   eet?: number; // Earliest end time
-  // let?: number; // Latest end time
+  let?: number; // Latest end time
   h?: number;
   successors: string[];
   predecessors: string[];
