@@ -1,0 +1,75 @@
+{
+  "activities": [
+    {
+      "id": "A",
+      "duration": 7,
+      "successors": [],
+      "predecessors": [],
+      "maxWorkers": 2,
+      "cost": 1
+    }, {
+      "id": "B",
+      "duration": 2,
+      "successors": [],
+      "predecessors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "C",
+      "duration": 15,
+      "predecessors": [],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "D",
+      "duration": 8,
+      "predecessors": ["E"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    },{
+      "id": "E",
+      "duration": 10,
+      "predecessors": ["A", "B"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    },{
+      "id": "F",
+      "duration": 2,
+      "predecessors": ["D", "G"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "G",
+      "duration": 5,
+      "predecessors": ["E"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "H",
+      "duration": 8,
+      "predecessors": ["G"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "I",
+      "duration": 2,
+      "predecessors": ["F", "C"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }, {
+      "id": "J",
+      "duration": 3,
+      "predecessors": ["I"],
+      "successors": [],
+      "maxWorkers": 1,
+      "cost": 1
+    }
+  ]
+}

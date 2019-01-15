@@ -1,88 +1,24 @@
 
 import { MyActivity, MyActivityList, IActivityConfig } from "./classes";
+import fs = require("fs");
+
+if (!process.argv[2]) {
+  console.log("Provide an input file to run this code");
+  process.exit(0);
+}
+const inputJSON: Buffer = fs.readFileSync(process.argv[2]);
+const data = JSON.parse(inputJSON.toString("utf8"));
+
+if (!data.activities) {
+  console.log("No activities found at input file");
+  process.exit(0);
+}
 
 const activityList = new MyActivityList();
-activityList.addActivity(new MyActivity({
-    id: "A",
-    duration: 7,
-    successors: [],
-    predecessors: [],
-}));
 
-activityList.addActivity(new MyActivity({
-    id: "B",
-    duration: 2,
-    successors: [],
-    predecessors: [],
-}));
+for (const activityConfig of data.activities) {
+  const act = new MyActivity(activityConfig);
+  activityList.addActivity(act);
+}
 
-activityList.addActivity(new MyActivity({
-    id: "C",
-    duration: 15,
-    predecessors: [],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "D",
-    duration: 8,
-    predecessors: ["E"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "E",
-    duration: 10,
-    predecessors: ["A", "B"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "F",
-    duration: 2,
-    predecessors: ["D", "G"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "G",
-    duration: 5,
-    predecessors: ["E"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "H",
-    duration: 8,
-    predecessors: ["G"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "I",
-    duration: 2,
-    predecessors: ["F", "C"],
-    successors: [],
-}));
-
-activityList.addActivity(new MyActivity({
-    id: "J",
-    duration: 3,
-    predecessors: ["I"],
-    successors: [],
-}));
-
-// const graphs = activityList.createGraphs();
-// const rounds = activityList.rounds();
-// console.log(rounds);
-activityList.cpm();
-
-// console.log(graphs.original);
-// console.log("====================");
-// console.log(graphs.shadowed);
-// console.log('activityList', activityList.getList());
-
-// var path = activityList.getCriticalPath('E');
-
-// //RETURNS E->F->B
-// console.log(path);
+console.log(activityList.cpm(false));
