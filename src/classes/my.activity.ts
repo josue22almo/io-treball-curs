@@ -5,7 +5,8 @@ export interface IActivityConfig {
   lst?: number; // latest start time
   eet?: number; // Earliest end time
   let?: number; // Latest end time
-  h?: number;
+  cost: number;
+  maxWorkers: number;
   successors: string[];
   predecessors: string[];
 }

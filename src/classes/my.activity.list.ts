@@ -8,10 +8,12 @@ export interface IMyNode {
 export class MyActivityList {
   public list: { [s: string]: MyActivity; };
   public criticalPath: string[];
+  public workerCost: number;
 
-  constructor() {
+  constructor(workerCost: number = 10) {
     this.list = {};
     this.criticalPath = [];
+    this.workerCost = workerCost;
   }
 
   public addActivity(activity: MyActivity) {
@@ -96,15 +98,22 @@ export class MyActivityList {
       return Object.keys(this.list).filter((key) => this.list[key].config.successors.length === 0);
   }
 
-  public setEarliest(rounds: any[]) {
-    let maxEET: number;
-
+  public setEarliest(rounds: any[], time: boolean = true) {
     rounds.forEach((x) => {
         for (const id of x) {
             const currentActivity = this.list[id];
-            const predsEET: number[] = currentActivity.config.predecessors.map((p) => this.list[p].config.eet!);
+            const predsEET: number[] = currentActivity.config.predecessors.map((p) => {
+              if (time) {
+                this.list[p].config.cost = this.list[p].config.cost + this.list[p].config.maxWorkers * this.workerCost;
+                this.list[p].config.duration = Math.round(this.list[p].config.duration / this.list[p].config.maxWorkers);
+                this.list[p].config.eet = Math.round(this.list[p].config.eet! / this.list[p].config.maxWorkers);
+              } else {
+                this.list[p].config.cost = this.list[p].config.cost + this.workerCost;
+              }
+              return this.list[p].config.eet!;
+            });
             if (predsEET!.length !== 0) {
-                maxEET = Math.max(...predsEET!);
+                const maxEET = Math.max(...predsEET!);
                 currentActivity.config.est = maxEET;
             } else {
                 currentActivity.config.est = 0;
@@ -129,7 +138,7 @@ export class MyActivityList {
     }
   }
 
-  public initActivityNetwork() {
+  public initActivityNetwork(time: boolean) {
     const rounds: any[] = this.rounds();
     this.list.START = new MyActivity({
       id: "START",
@@ -140,11 +149,13 @@ export class MyActivityList {
       eet: 0,
       predecessors: [],
       successors: rounds[0],
+      maxWorkers: 1,
+      cost: 0,
     });
     rounds[0].forEach((id: string) => {
       this.list[id].config.predecessors = ["START"];
     });
-    const earliestFinishTime: number = this.setEarliest(rounds);
+    const earliestFinishTime: number = this.setEarliest(rounds, time);
     this.list.FINISH = new MyActivity({
       id: "FINISH",
       duration: 0,
@@ -153,6 +164,8 @@ export class MyActivityList {
       let: 0,
       predecessors: this.getFinalNodes(),
       successors: [],
+      maxWorkers: 1,
+      cost: 0,
     });
     this.list.FINISH.config.predecessors.forEach((id: string) => {
       this.list[id].config.successors.push("FINISH");
@@ -179,11 +192,27 @@ export class MyActivityList {
     }
   }
 
-  public cpm() {
-    this.initActivityNetwork();
+  public computeCriticalPathCost(): number {
+    let sum = 0;
+    this.criticalPath.forEach((id: string) => {
+      sum += this.list[id].config.cost;
+    });
+    return sum;
+  }
+
+  public cpm(time: boolean = true) {
+    this.initActivityNetwork(time);
     this.computeCriticalPath("START", []);
-    console.log("Critical path", this.criticalPath);
-    console.log("Expected end time:", this.list.FINISH.config.lst);
+    // this.print();
+    if (this.criticalPath.length === 0) {
+      console.log("No critical");
+      process.exit(0);
+    }
+    return {
+      criticalPath: this.criticalPath,
+      expectedEndTime: this.list.FINISH.config.lst,
+      expectedCost: this.computeCriticalPathCost(),
+    };
   }
 
   public print() {
