@@ -211,7 +211,7 @@ export class MyActivityList {
   public cpm(time: boolean = true) {
     this.initActivityNetwork(time);
     this.computeCriticalPath("START", []);
-    this.print();
+    // this.print();
     if (this.criticalPath.length === 0) {
       console.log("No critical");
       process.exit(0);
