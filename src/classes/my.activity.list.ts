@@ -98,18 +98,24 @@ export class MyActivityList {
       return Object.keys(this.list).filter((key) => this.list[key].config.successors.length === 0);
   }
 
-  public setEarliest(rounds: any[], time: boolean = true) {
+  public prepareCostAndTimes(time: boolean) {
+    Object.keys(this.list).forEach((id: string) => {
+      const currentActivity: MyActivity = this.list[id];
+      if (time) {
+        currentActivity.config.duration = Math.round(currentActivity.config.duration / currentActivity.config.maxWorkers);
+        currentActivity.config.cost = currentActivity.config.cost + currentActivity.config.maxWorkers * this.workerCost;
+      } else {
+        currentActivity.config.cost = currentActivity.config.cost + this.workerCost;
+      }
+    });
+  }
+
+  public setEarliest(rounds: any[], time: boolean) {
+    this.prepareCostAndTimes(time);
     rounds.forEach((x) => {
         for (const id of x) {
             const currentActivity = this.list[id];
             const predsEET: number[] = currentActivity.config.predecessors.map((p) => {
-              if (time) {
-                this.list[p].config.cost = this.list[p].config.cost + this.list[p].config.maxWorkers * this.workerCost;
-                this.list[p].config.duration = Math.round(this.list[p].config.duration / this.list[p].config.maxWorkers);
-                this.list[p].config.eet = Math.round(this.list[p].config.eet! / this.list[p].config.maxWorkers);
-              } else {
-                this.list[p].config.cost = this.list[p].config.cost + this.workerCost;
-              }
               return this.list[p].config.eet!;
             });
             if (predsEET!.length !== 0) {

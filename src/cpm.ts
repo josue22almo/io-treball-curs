@@ -7,6 +7,17 @@ if (!process.argv[2]) {
   console.log("Provide an input file to run this code");
   process.exit(0);
 }
+
+let time: boolean = false;
+
+if (process.argv[3]) {
+  if (process.argv[3] !== "--time") {
+    console.log("Third argument should be 'time'");
+    process.exit(0);
+  }
+  time = true;
+}
+
 const inputJSON: Buffer = fs.readFileSync(process.argv[2]);
 const data = JSON.parse(inputJSON.toString("utf8"));
 
@@ -63,4 +74,4 @@ for (const activityConfig of data.activities) {
   activityList.addActivity(act);
 }
 
-console.log(activityList.cpm(false));
+console.log(activityList.cpm(time));
