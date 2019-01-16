@@ -55,6 +55,9 @@ const schema = {
         type: "string",
       },
     },
+    description: {
+      type: "string",
+    },
   },
   required: ["id", "duration", "cost", "maxWorkers", "successors", "predecessors"],
 };
