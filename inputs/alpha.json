@@ -28,7 +28,7 @@
           "id": "ALPHA-18",
           "description": "Check transactions totalAmount location",
           "duration": 4,
-          "predecessors": ["ALPHA-18", "ALPHA-11"],
+          "predecessors": ["ALPHA-11"],
           "successors": [],
           "maxWorkers": 1,
           "cost": 5

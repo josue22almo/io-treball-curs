@@ -121,8 +121,6 @@ export class MyActivityList {
             currentActivity.config.eet = currentActivity.config.est! + currentActivity.config.duration;
         }
     });
-
-    return Math.max(rounds[rounds.length - 1].map((id: string) => this.list[id].config.eet));
   }
 
   public setLatest(node: string) {
@@ -136,6 +134,14 @@ export class MyActivityList {
       this.list[id].config.let = this.list[id].config.lst! + this.list[id].config.duration;
       this.setLatest(id);
     }
+  }
+
+  public computeEarliestFinishTime(): number {
+    const estList = Object.keys(this.list).map((id: string) => {
+      const currentActivity: MyActivity = this.list[id];
+      return currentActivity.config.est! + currentActivity.config.duration;
+    });
+    return Math.max(...estList);
   }
 
   public initActivityNetwork(time: boolean) {
@@ -155,14 +161,16 @@ export class MyActivityList {
     rounds[0].forEach((id: string) => {
       this.list[id].config.predecessors = ["START"];
     });
-    const earliestFinishTime: number = this.setEarliest(rounds, time);
+    this.setEarliest(rounds, time);
+    const finalNodes = this.getFinalNodes();
+    const earliestFinishTime: number = this.computeEarliestFinishTime();
     this.list.FINISH = new MyActivity({
       id: "FINISH",
       duration: 0,
       est: earliestFinishTime,
       lst: earliestFinishTime,
       let: 0,
-      predecessors: this.getFinalNodes(),
+      predecessors: finalNodes,
       successors: [],
       maxWorkers: 1,
       cost: 0,
@@ -203,7 +211,7 @@ export class MyActivityList {
   public cpm(time: boolean = true) {
     this.initActivityNetwork(time);
     this.computeCriticalPath("START", []);
-    // this.print();
+    this.print();
     if (this.criticalPath.length === 0) {
       console.log("No critical");
       process.exit(0);
