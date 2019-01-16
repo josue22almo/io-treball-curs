@@ -8,7 +8,10 @@
     "cpm": "node dist/cpm.js",
     "precpm": "npm run build",
     "cron": "node dist/kernel.cron.js",
-    "fmg": "node dist/construct.fmg.js"
+    "fmg": "node dist/construct.fmg.js",
+    "omega": "npm run cpm -- inputs/omega.json",
+    "alpha": "npm run cpm -- inputs/alpha.json",
+    "garage": "npm run cpm -- inputs/garage.json"
   },
   "author": "",
   "license": "ISC",
