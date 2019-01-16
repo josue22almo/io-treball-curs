@@ -36,7 +36,7 @@
         "id": "OMEGA-25",
         "description": "Cryptos: Design QA",
         "duration": 10,
-        "predecessors": ["OMEGA-74", "OMEGA-68", "OMEGA-52"],
+        "predecessors": ["OMEGA-68", "OMEGA-52"],
         "successors": [],
         "maxWorkers": 3,
         "cost": 20
@@ -60,7 +60,7 @@
         "id": "OMEGA-13",
         "description": "Crypto implementation",
         "duration": 40,
-        "predecessors": ["OMEGA-52", "OMEGA-74"],
+        "predecessors": ["OMEGA-52"],
         "successors": [],
         "maxWorkers": 3,
         "cost": 50
@@ -69,7 +69,7 @@
         "id": "OMEGA-101",
         "description": "RoundUp Saving Method activation button",
         "duration": 4,
-        "predecessors": ["OMEGA-100", "OMEGA-102"],
+        "predecessors": ["OMEGA-102"],
         "successors": [],
         "maxWorkers": 1,
         "cost": 5
@@ -96,7 +96,7 @@
         "id": "OMEGA-103",
         "description": "View other methods button",
         "duration": 4,
-        "predecessors": ["OMEGA-100", "OMEGA-102"],
+        "predecessors": ["OMEGA-102"],
         "successors": [],
         "maxWorkers": 1,
         "cost": 10
